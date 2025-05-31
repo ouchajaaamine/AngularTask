@@ -1,0 +1,55 @@
+<div class="courses-container">
+  <div class="header">
+    <h1>Liste des Cours</h1>
+    <button *ngIf="isFormateur" (click)="openAddCourseModal()" class="add-button">
+      Ajouter un cours
+    </button>
+  </div>
+
+  <div class="courses-grid">
+    <div *ngFor="let course of courses" class="course-card">
+      <div class="course-header">
+        <h2>{{ course.title }}</h2>
+        <span class="level-badge" [class]="course.level.toLowerCase()">
+          {{ course.level }}
+        </span>
+      </div>
+      
+      <p class="description">{{ course.description }}</p>
+      
+      <div class="course-info">
+        <span class="duration">{{ course.duration }}h</span>
+        <div class="categories">
+          <span *ngFor="let category of course.categories" class="category">
+            {{ category }}
+          </span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button [routerLink]="['/courses', course.id]" class="view-button">
+          Voir le détail
+        </button>
+        <ng-container *ngIf="isFormateur">
+          <button (click)="openEditCourseModal(course.id)" class="edit-button">
+            Modifier
+          </button>
+          <button (click)="deleteCourse(course.id)" class="delete-button">
+            Supprimer
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour ajouter/modifier un cours -->
+  <app-modal
+    [isOpen]="isModalOpen"
+    [title]="modalTitle"
+    (closeModal)="closeModal()">
+    <app-add-course
+      [courseId]="editingCourseId"
+      (courseSaved)="onCourseSaved()">
+    </app-add-course>
+  </app-modal>
+</div>
