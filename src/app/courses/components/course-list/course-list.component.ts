@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CoursesService, Course } from '../../services/courses.service';
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthApplicationService } from '../../../application/services/auth-application.service';
+import { User } from '../../../domain/entities/user.entity';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { AddCourseComponent } from '../add-course/add-course.component';
 
@@ -13,21 +15,36 @@ import { AddCourseComponent } from '../add-course/add-course.component';
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.scss']
 })
-export class CourseListComponent implements OnInit {
+export class CourseListComponent implements OnInit, OnDestroy {
   courses: Course[] = [];
+  currentUser: User | null = null;
   isFormateur: boolean = false;
   isModalOpen = false;
   modalTitle = '';
   editingCourseId: string | null = null;
+  private subscriptions = new Subscription();
 
   constructor(
     private coursesService: CoursesService,
-    private authService: AuthService
+    private authService: AuthApplicationService
   ) {}
 
   ngOnInit() {
     this.loadCourses();
-    this.isFormateur = this.authService.getUserRole() === 'formateur';
+    this.loadCurrentUser();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
+  private loadCurrentUser() {
+    this.subscriptions.add(
+      this.authService.getCurrentUser().subscribe(user => {
+        this.currentUser = user;
+        this.isFormateur = user?.isFormateur() || false;
+      })
+    );
   }
 
   loadCourses() {

@@ -1,4 +1,58 @@
-/* Styles globaux pour l'application de gestion des cours */
+/* Thème moderne pour l'application de gestion des cours */
+
+// Variables CSS modernes
+:root {
+  // Couleurs principales (cohérentes avec la page de login)
+  --primary-bg: #0f172a;
+  --secondary-bg: #1e293b;
+  --accent-bg: #334155;
+  --surface-bg: rgba(15, 23, 42, 0.95);
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-bg-strong: rgba(255, 255, 255, 0.15);
+
+  // Couleurs de texte
+  --text-primary: #f8fafc;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-accent: #a5b4fc;
+
+  // Couleurs d'accent (gradients colorés)
+  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+  --gradient-secondary: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  --gradient-accent: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  --gradient-info: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+
+  // Couleurs spéciales pour les effets
+  --color-purple: rgba(147, 51, 234, 0.6);
+  --color-blue: rgba(59, 130, 246, 0.6);
+  --color-pink: rgba(236, 72, 153, 0.6);
+  --color-green: rgba(16, 185, 129, 0.6);
+  --color-yellow: rgba(245, 158, 11, 0.6);
+  --color-red: rgba(239, 68, 68, 0.6);
+
+  // Ombres modernes colorées
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.4);
+  --shadow-glow-purple: 0 0 30px rgba(147, 51, 234, 0.4);
+  --shadow-glow-pink: 0 0 30px rgba(236, 72, 153, 0.4);
+  --shadow-glow-green: 0 0 30px rgba(16, 185, 129, 0.4);
+
+  // Bordures et rayons - Réduits
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-color: rgba(99, 102, 241, 0.3);
+  --border-color-strong: rgba(99, 102, 241, 0.5);
+
+  // Transitions
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 * {
   margin: 0;
@@ -7,13 +61,111 @@
 }
 
 html, body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
-  color: #333;
-  background-color: #f8f9fa;
+  color: var(--text-primary);
+  background: var(--primary-bg);
   width: 100%;
   height: 100%;
   overflow-x: hidden;
+  position: relative;
+}
+
+// Background coloré magnifique avec dégradés animés
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.4) 0%, transparent 60%),
+    radial-gradient(circle at 85% 15%, rgba(147, 51, 234, 0.4) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 70%),
+    radial-gradient(circle at 25% 25%, rgba(236, 72, 153, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
+    linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
+  z-index: -3;
+  animation: backgroundShift 30s ease-in-out infinite;
+}
+
+// Couche de particules colorées
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(3px 3px at 25px 35px, rgba(99, 102, 241, 0.3), transparent),
+    radial-gradient(2px 2px at 65px 85px, rgba(147, 51, 234, 0.2), transparent),
+    radial-gradient(1px 1px at 105px 45px, rgba(59, 130, 246, 0.3), transparent),
+    radial-gradient(2px 2px at 145px 95px, rgba(236, 72, 153, 0.2), transparent),
+    radial-gradient(1px 1px at 185px 25px, rgba(16, 185, 129, 0.3), transparent),
+    radial-gradient(3px 3px at 225px 75px, rgba(245, 158, 11, 0.2), transparent),
+    radial-gradient(2px 2px at 265px 55px, rgba(239, 68, 68, 0.2), transparent);
+  background-repeat: repeat;
+  background-size: 300px 120px;
+  z-index: -2;
+  animation: particlesFloat 40s linear infinite;
+}
+
+// Couche de brillance supplémentaire
+body {
+  &::before {
+    box-shadow:
+      inset 0 0 200px rgba(99, 102, 241, 0.1),
+      inset 0 0 400px rgba(147, 51, 234, 0.05);
+  }
+}
+
+@keyframes backgroundShift {
+  0%, 100% {
+    background:
+      radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.4) 0%, transparent 60%),
+      radial-gradient(circle at 85% 15%, rgba(147, 51, 234, 0.4) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 70%),
+      radial-gradient(circle at 25% 25%, rgba(236, 72, 153, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
+      linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
+  }
+  25% {
+    background:
+      radial-gradient(circle at 85% 15%, rgba(147, 51, 234, 0.5) 0%, transparent 60%),
+      radial-gradient(circle at 15% 85%, rgba(59, 130, 246, 0.4) 0%, transparent 60%),
+      radial-gradient(circle at 75% 25%, rgba(236, 72, 153, 0.4) 0%, transparent 70%),
+      radial-gradient(circle at 25% 75%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
+      linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #334155 75%, #1e293b 100%);
+  }
+  50% {
+    background:
+      radial-gradient(circle at 75% 25%, rgba(59, 130, 246, 0.5) 0%, transparent 60%),
+      radial-gradient(circle at 25% 75%, rgba(236, 72, 153, 0.4) 0%, transparent 60%),
+      radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.4) 0%, transparent 70%),
+      radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.3) 0%, transparent 50%),
+      linear-gradient(135deg, #334155 0%, #475569 25%, #64748b 50%, #475569 75%, #334155 100%);
+  }
+  75% {
+    background:
+      radial-gradient(circle at 25% 75%, rgba(16, 185, 129, 0.5) 0%, transparent 60%),
+      radial-gradient(circle at 75% 25%, rgba(99, 102, 241, 0.4) 0%, transparent 60%),
+      radial-gradient(circle at 15% 15%, rgba(147, 51, 234, 0.4) 0%, transparent 70%),
+      radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.3) 0%, transparent 50%),
+      linear-gradient(135deg, #475569 0%, #64748b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
+  }
+}
+
+@keyframes particlesFloat {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  25% { transform: translateY(-80px) translateX(120px) rotate(90deg); }
+  50% { transform: translateY(-160px) translateX(-80px) rotate(180deg); }
+  75% { transform: translateY(-240px) translateX(80px) rotate(270deg); }
+  100% { transform: translateY(-320px) translateX(0px) rotate(360deg); }
 }
 
 // Override pour la page de login
@@ -41,168 +193,418 @@ body:has(app-login) {
   padding: 0 1rem;
 }
 
-/* Styles pour les boutons */
+/* Styles modernes pour les boutons */
 .btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   text-decoration: none;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   text-align: center;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
 
   &.btn-primary {
-    background-color: #007bff;
-    color: white;
+    background: var(--gradient-primary);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
 
     &:hover:not(:disabled) {
-      background-color: #0056b3;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+      border-color: var(--border-color-strong);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(-1px) scale(1.01);
     }
   }
 
   &.btn-secondary {
-    background-color: #6c757d;
-    color: white;
+    background: var(--glass-bg-strong);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(20px);
 
     &:hover:not(:disabled) {
-      background-color: #545b62;
+      background: var(--secondary-bg);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-color-strong);
     }
   }
 
   &.btn-success {
-    background-color: #28a745;
-    color: white;
+    background: var(--gradient-success);
+    color: var(--text-primary);
+    border: 1px solid rgba(16, 185, 129, 0.3);
 
     &:hover:not(:disabled) {
-      background-color: #1e7e34;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-lg), var(--shadow-glow-green);
+      border-color: rgba(16, 185, 129, 0.5);
     }
   }
 
   &.btn-warning {
-    background-color: #ffc107;
-    color: #000;
+    background: var(--gradient-warning);
+    color: var(--text-primary);
+    border: 1px solid rgba(245, 158, 11, 0.3);
 
     &:hover:not(:disabled) {
-      background-color: #e0a800;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-lg), 0 0 30px rgba(245, 158, 11, 0.4);
+      border-color: rgba(245, 158, 11, 0.5);
     }
   }
 
   &.btn-danger {
-    background-color: #dc3545;
-    color: white;
+    background: var(--gradient-danger);
+    color: var(--text-primary);
+    border: 1px solid rgba(239, 68, 68, 0.3);
 
     &:hover:not(:disabled) {
-      background-color: #c82333;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-lg), 0 0 30px rgba(239, 68, 68, 0.4);
+      border-color: rgba(239, 68, 68, 0.5);
+    }
+  }
+
+  &.btn-info {
+    background: var(--gradient-info);
+    color: var(--text-primary);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-lg), 0 0 30px rgba(59, 130, 246, 0.4);
+      border-color: rgba(59, 130, 246, 0.5);
     }
   }
 
   &:disabled {
-    background-color: #ccc;
+    background: var(--accent-bg);
+    color: var(--text-muted);
     cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+    box-shadow: none;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
   }
 }
 
-/* Styles pour les cartes */
+/* Styles modernes pour les cartes */
 .card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+  background: var(--surface-bg);
+  backdrop-filter: blur(30px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-accent);
+    opacity: 0.8;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 20% 20%, var(--color-purple) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, var(--color-blue) 0%, transparent 50%);
+    opacity: 0;
+    transition: var(--transition);
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-color: var(--border-color-strong);
+
+    &::after {
+      opacity: 0.1;
+    }
+  }
 }
 
-/* Styles pour les formulaires */
+/* Styles modernes pour les formulaires */
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 
   label {
     display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #555;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .form-control {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    background: var(--glass-bg);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
     font-size: 1rem;
-    transition: border-color 0.3s ease;
+    color: var(--text-primary);
+    transition: var(--transition);
+    backdrop-filter: blur(20px);
+    position: relative;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
 
     &:focus {
       outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      border-color: #8b5cf6;
+      box-shadow:
+        0 0 0 3px rgba(139, 92, 246, 0.2),
+        0 0 20px rgba(139, 92, 246, 0.1);
+      background: var(--glass-bg-strong);
+      transform: translateY(-1px);
+    }
+
+    &:hover {
+      border-color: var(--border-color-strong);
+      background: var(--glass-bg-strong);
+    }
+
+    // Effet de brillance sur focus
+    &:focus::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: inputShine 0.6s ease-out;
     }
   }
 
+  @keyframes inputShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
   .error-message {
-    color: #dc3545;
+    color: #fca5a5;
     font-size: 0.875rem;
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 }
 
-/* Styles pour les alertes */
+/* Styles modernes pour les alertes */
 .alert {
-  padding: 0.75rem 1rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
 
   &.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+    background: rgba(16, 185, 129, 0.1);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
   }
 
   &.alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+    background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.3);
   }
 
   &.alert-warning {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeaa7;
+    background: rgba(245, 158, 11, 0.1);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.3);
   }
 
   &.alert-info {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
+    background: rgba(99, 102, 241, 0.1);
+    color: #a5b4fc;
+    border-color: rgba(99, 102, 241, 0.3);
   }
 }
 
-/* Styles pour les badges */
+/* Styles modernes pour les badges */
 .badge {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
   font-size: 0.75rem;
-  font-weight: 500;
-  border-radius: 4px;
+  font-weight: 600;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(10px);
+  border: 1px solid;
 
   &.badge-primary {
-    background-color: #007bff;
-    color: white;
+    background: rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+    border-color: rgba(99, 102, 241, 0.3);
   }
 
   &.badge-success {
-    background-color: #28a745;
-    color: white;
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
   }
 
   &.badge-warning {
-    background-color: #ffc107;
-    color: #000;
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.3);
   }
 
   &.badge-danger {
-    background-color: #dc3545;
-    color: white;
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+}
+
+// Classes utilitaires modernes
+.glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+}
+
+.glass-effect-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(30px);
+  border: 1px solid var(--border-color-strong);
+}
+
+.gradient-text {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.gradient-text-primary {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+// Effets de particules flottantes pour les composants
+.floating-particles {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, var(--color-purple) 0%, transparent 50%),
+      radial-gradient(1px 1px at 40% 70%, var(--color-blue) 0%, transparent 50%),
+      radial-gradient(1px 1px at 90% 40%, var(--color-pink) 0%, transparent 50%),
+      radial-gradient(2px 2px at 60% 80%, var(--color-green) 0%, transparent 50%);
+    background-size: 200px 200px;
+    animation: particlesFloat 20s linear infinite;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+}
+
+// Effet de brillance animée
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shine 3s ease-in-out infinite;
+  }
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+// Effet de pulsation colorée
+.pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
   }
 }

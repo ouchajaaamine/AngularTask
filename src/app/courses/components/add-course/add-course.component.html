@@ -1,5 +1,8 @@
 <div class="add-course-container">
-  
+  <h1 *ngIf="!hideTitle" class="page-title gradient-text-primary">
+    {{ isEditMode ? 'Modifier le cours' : 'Ajouter un nouveau cours' }}
+  </h1>
+
   <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="course-form">
     <div class="form-group">
       <label for="title">Titre du cours</label>

@@ -14,7 +14,10 @@ import { AuthService } from '../../../auth/services/auth.service';
 })
 export class AddCourseComponent implements OnInit, OnChanges {
   @Input() courseId: string | null = null;
+  @Input() hideTitle: boolean = false; // Pour masquer le titre quand utilisé dans une modal
   @Output() courseSaved = new EventEmitter<void>();
+  @Output() courseAdded = new EventEmitter<any>();
+  @Output() cancelled = new EventEmitter<void>();
 
   courseForm: FormGroup;
   isSubmitting = false;
@@ -177,7 +180,7 @@ export class AddCourseComponent implements OnInit, OnChanges {
   }
 
   cancel() {
-    this.courseSaved.emit();
+    this.cancelled.emit();
   }
 
   onSubmit() {
@@ -212,7 +215,8 @@ export class AddCourseComponent implements OnInit, OnChanges {
       };
 
       this.coursesService.createCourse(courseData).subscribe({
-        next: () => {
+        next: (createdCourse) => {
+          this.courseAdded.emit(createdCourse);
           this.courseSaved.emit();
         },
         error: (error) => {

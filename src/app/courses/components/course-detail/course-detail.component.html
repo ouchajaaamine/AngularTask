@@ -1,0 +1,106 @@
+<div class="course-detail-container" *ngIf="course">
+  <div class="course-header">
+    <div class="title-section">
+      <h1>{{ course.title }}</h1>
+      <span class="level-badge" [class]="course.level.toLowerCase()">
+        {{ course.level }}
+      </span>
+    </div>
+    
+    <div class="actions" *ngIf="isFormateur">
+      <button class="edit-button" (click)="openEditModal()">Modifier</button>
+      <button class="delete-button" (click)="deleteCourse()">Supprimer</button>
+    </div>
+  </div>
+
+  <div class="course-info">
+    <div class="info-item">
+      <strong>Description:</strong>
+      <p>{{ course.description }}</p>
+    </div>
+    
+    <div class="info-item">
+      <strong>Durée:</strong>
+      <span>{{ course.duration }} heures</span>
+    </div>
+    
+    <div class="info-item">
+      <strong>Catégories:</strong>
+      <div class="categories">
+        <span *ngFor="let category of course.categories" class="category">{{ category }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-content">
+    <h2>Contenu du cours</h2>
+    <div class="sections">
+      <div *ngFor="let section of course.content.sections; let i = index" class="section">
+        <div class="section-header">
+          <h3>Section {{ i + 1 }}: {{ section.title }}</h3>
+        </div>
+        <p class="section-description">{{ section.description }}</p>
+        <div class="resources" *ngIf="section.resources.length > 0">
+          <h4>Ressources:</h4>
+          <ul>
+            <li *ngFor="let resource of section.resources">{{ resource }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section pour les étudiants (visible pour les étudiants) -->
+  <div class="enrollment-section" *ngIf="!isFormateur">
+    <button
+      class="enroll-button"
+      [class.enrolled]="isEnrolled"
+      (click)="toggleEnrollment()"
+      [disabled]="isProcessing">
+      {{ isEnrolled ? 'Se désinscrire' : "S'inscrire au cours" }}
+    </button>
+  </div>
+
+  <!-- Section pour les formateurs : liste des étudiants inscrits -->
+  <div class="students-section" *ngIf="isFormateur">
+    <h2>Étudiants inscrits ({{ enrolledStudents.length }})</h2>
+
+    <div class="filter-section">
+      <label for="studentFilter">Filtrer les étudiants :</label>
+      <select id="studentFilter" [(ngModel)]="studentFilter" (change)="filterStudents()" class="form-control">
+        <option value="all">Tous les étudiants</option>
+        <option value="enrolled">Inscrits uniquement</option>
+        <option value="not-enrolled">Non inscrits uniquement</option>
+      </select>
+    </div>
+
+    <div class="students-list" *ngIf="filteredStudents.length > 0">
+      <div *ngFor="let student of filteredStudents" class="student-item">
+        <div class="student-info">
+          <span class="student-name">{{ student.user.displayName }}</span>
+          <span class="student-username">{{ formatUsername(student.user.username) }}</span>
+          <span class="student-email">{{ student.user.email }}</span>
+        </div>
+        <span class="enrollment-status" [class.enrolled]="student.isEnrolled">
+          {{ student.isEnrolled ? '✅ Inscrit' : '❌ Non inscrit' }}
+        </span>
+      </div>
+    </div>
+
+    <div *ngIf="filteredStudents.length === 0" class="no-students">
+      <p>Aucun étudiant trouvé pour ce filtre.</p>
+    </div>
+  </div>
+
+  <!-- Modal pour modifier le cours -->
+  <app-modal
+    [isOpen]="isEditModalOpen"
+    [title]="'Modifier le cours'"
+    (closeModal)="closeEditModal()">
+    <app-add-course
+      [courseId]="course.id || null"
+      [hideTitle]="true"
+      (courseSaved)="onCourseSaved()">
+    </app-add-course>
+  </app-modal>
+</div>

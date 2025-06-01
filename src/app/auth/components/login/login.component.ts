@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
+import { AuthApplicationService } from '../../../application/services/auth-application.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthApplicationService
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Récupérer l'URL de retour des query params ou utiliser le dashboard par défaut
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    // Toujours rediriger vers le dashboard après connexion
+    this.returnUrl = '/dashboard';
   }
 
   onSubmit() {
@@ -66,19 +66,22 @@ export class LoginComponent implements OnInit {
 
   // Redirection basée sur le rôle utilisateur
   private redirectUserBasedOnRole(user: any) {
-    // Forcer la synchronisation
-    this.authService.forceSync();
+    console.log('Redirection pour utilisateur:', user);
 
-    // Attendre un peu pour s'assurer que l'état est propagé
-    setTimeout(() => {
-      if (user.role === 'formateur') {
-        this.router.navigate(['/courses']);
-      } else if (user.role === 'etudiant') {
-        this.router.navigate(['/courses']);
-      } else {
-        this.router.navigate(['/dashboard']);
-      }
-    }, 150);
+    if (user.isFormateur()) {
+      console.log('Redirection vers dashboard formateur');
+      this.router.navigate(['/dashboard'], {
+        queryParams: { role: 'formateur' }
+      });
+    } else if (user.isEtudiant()) {
+      console.log('Redirection vers dashboard étudiant');
+      this.router.navigate(['/dashboard'], {
+        queryParams: { role: 'etudiant' }
+      });
+    } else {
+      console.log('Redirection par défaut vers dashboard');
+      this.router.navigate(['/dashboard']);
+    }
   }
 
 }
