@@ -3,7 +3,7 @@
     <h1 class="gradient-text-primary">Tableau de bord</h1>
     <p class="page-subtitle">Gérez votre plateforme éducative</p>
   </div>
-  
+
   <div class="welcome-message glass-effect-strong shine-effect">
     <div class="welcome-content">
       <div class="user-avatar pulse-glow">
@@ -26,7 +26,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="quick-actions">
     <h3 class="gradient-text">Actions rapides</h3>
     <div class="actions-grid">
@@ -41,7 +41,7 @@
           <p>Explorez et gérez tous les cours disponibles sur la plateforme</p>
         </div>
       </a>
-      
+
       <div class="action-card glass-effect create-card" *ngIf="currentUser?.role === 'formateur'" (click)="openCreateCourseModal()">
         <div class="card-icon create-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">

@@ -2,8 +2,11 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { MOCK_USERS, MOCK_CREDENTIALS } from '../../infrastructure/mock-data/users.data';
+import { User } from '../../domain/entities/user.entity';
+import { UserRole } from '../../domain/enums/user-role.enum';
 
-export interface User {
+export interface UserAuth {
   id: string;
   username: string;
   role: 'formateur' | 'etudiant';
@@ -11,54 +14,19 @@ export interface User {
   prenom: string;
 }
 
-const MOCK_USERS = [
-  {
-    id: '1',
-    username: 'formateur1',
-    password: 'pass123',
-    role: 'formateur' as const,
-    nom: 'Dupont',
-    prenom: 'Jean'
-  },
-  {
-    id: '2',
-    username: 'etudiant1',
-    password: 'pass123',
-    role: 'etudiant' as const,
-    nom: 'Martin',
-    prenom: 'Sophie'
-  },
-  {
-    id: '3',
-    username: 'formateur',
-    password: 'formateur',
-    role: 'formateur' as const,
-    nom: 'Ouchajaa',
-    prenom: 'Amine'
-  },
-  {
-    id: '4',
-    username: 'etudiant',
-    password: 'etudiant',
-    role: 'etudiant' as const,
-    nom: 'Khaldi',
-    prenom: 'Hicham'
-  }
-];
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
+  private currentUserSubject: BehaviorSubject<UserAuth | null>;
+  public currentUser: Observable<UserAuth | null>;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(this.getUserFromStorage());
+    this.currentUserSubject = new BehaviorSubject<UserAuth | null>(this.getUserFromStorage());
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  private getUserFromStorage(): User | null {
+  private getUserFromStorage(): UserAuth | null {
     if (isPlatformBrowser(this.platformId)) {
       try {
         const userData = localStorage.getItem('currentUser');
@@ -75,46 +43,59 @@ export class AuthService {
     return null;
   }
 
-  public get currentUserValue(): User | null {
+  public get currentUserValue(): UserAuth | null {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string): Observable<User> {
+  login(username: string, password: string): Observable<UserAuth> {
     // Nettoyer les espaces
     const cleanUsername = username.trim();
     const cleanPassword = password.trim();
 
     console.log('Tentative de connexion:', { username: cleanUsername, password: cleanPassword });
-    console.log('Utilisateurs disponibles:', MOCK_USERS.map(u => ({ username: u.username, role: u.role })));
+    console.log('Utilisateurs disponibles:', MOCK_USERS.map((u: User) => ({ username: u.username, role: u.role })));
 
-    const user = MOCK_USERS.find(u => u.username === cleanUsername && u.password === cleanPassword);
-    console.log('Utilisateur trouvé:', user);
+    // Vérifier les credentials
+    const credential = MOCK_CREDENTIALS.find(cred => cred.username === cleanUsername && cred.password === cleanPassword);
+    console.log('Credential trouvé:', credential);
 
-    if (user) {
-      // Omit password from stored user data
-      const { password: _, ...userWithoutPassword } = user;
+    if (credential) {
+      // Trouver l'utilisateur correspondant
+      const user = MOCK_USERS.find((u: User) => u.username === cleanUsername);
+      console.log('Utilisateur trouvé:', user);
 
-      // Sauvegarder dans localStorage d'abord
-      if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
-        console.log('Utilisateur sauvé dans localStorage:', userWithoutPassword);
+      if (user) {
+        // Convertir l'entité User en UserAuth pour l'interface
+        const userAuth: UserAuth = {
+          id: user.id,
+          username: user.username,
+          role: user.role === UserRole.FORMATEUR ? 'formateur' : 'etudiant',
+          nom: user.nom,
+          prenom: user.prenom
+        };
+
+        // Sauvegarder dans localStorage
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('currentUser', JSON.stringify(userAuth));
+          console.log('Utilisateur sauvé dans localStorage:', userAuth);
+        }
+
+        // Mettre à jour le subject
+        this.currentUserSubject.next(userAuth);
+
+        // Vérification immédiate
+        console.log('Connexion réussie pour:', userAuth);
+        console.log('État après connexion - isLoggedIn:', this.isLoggedIn());
+        console.log('État après connexion - currentUserValue:', this.currentUserValue);
+
+        // Double vérification pour s'assurer que l'état est correct
+        setTimeout(() => {
+          console.log('Vérification différée - isLoggedIn:', this.isLoggedIn());
+          console.log('Vérification différée - currentUserValue:', this.currentUserValue);
+        }, 50);
+
+        return of(userAuth);
       }
-
-      // Mettre à jour le subject
-      this.currentUserSubject.next(userWithoutPassword);
-
-      // Vérification immédiate
-      console.log('Connexion réussie pour:', userWithoutPassword);
-      console.log('État après connexion - isLoggedIn:', this.isLoggedIn());
-      console.log('État après connexion - currentUserValue:', this.currentUserValue);
-
-      // Double vérification pour s'assurer que l'état est correct
-      setTimeout(() => {
-        console.log('Vérification différée - isLoggedIn:', this.isLoggedIn());
-        console.log('Vérification différée - currentUserValue:', this.currentUserValue);
-      }, 50);
-
-      return of(userWithoutPassword);
     }
 
     console.log('Échec de la connexion - utilisateur non trouvé');

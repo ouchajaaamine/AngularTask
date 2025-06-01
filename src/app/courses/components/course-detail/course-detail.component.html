@@ -63,15 +63,30 @@
 
   <!-- Section pour les formateurs : liste des étudiants inscrits -->
   <div class="students-section" *ngIf="isFormateur">
-    <h2>Étudiants inscrits ({{ enrolledStudents.length }})</h2>
+    <div class="section-header">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" class="section-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-1c0-1.38 2.24-2.5 5-2.5s5 1.12 5 2.5v1H4zM9 12c1.93 0 3.5-1.57 3.5-3.5S10.93 5 9 5 5.5 6.57 5.5 8.5 7.07 12 9 12z"/>
+        </svg>
+        Gestion des étudiants
+        <span class="student-count">({{ enrolledStudents.length }} inscrits)</span>
+      </h2>
+    </div>
 
     <div class="filter-section">
-      <label for="studentFilter">Filtrer les étudiants :</label>
-      <select id="studentFilter" [(ngModel)]="studentFilter" (change)="filterStudents()" class="form-control">
-        <option value="all">Tous les étudiants</option>
-        <option value="enrolled">Inscrits uniquement</option>
-        <option value="not-enrolled">Non inscrits uniquement</option>
-      </select>
+      <div class="filter-container">
+        <svg xmlns="http://www.w3.org/2000/svg" class="filter-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+        </svg>
+        <select id="studentFilter" [(ngModel)]="studentFilter" (change)="filterStudents()" class="filter-select">
+          <option value="all">Tous les étudiants</option>
+          <option value="enrolled">✅ Inscrits uniquement</option>
+          <option value="not-enrolled">❌ Non inscrits uniquement</option>
+        </select>
+        <div class="filter-results">
+          {{ filteredStudents.length }} résultat(s)
+        </div>
+      </div>
     </div>
 
     <div class="students-list" *ngIf="filteredStudents.length > 0">
